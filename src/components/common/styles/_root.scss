@@ -1,0 +1,239 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    /* colors */
+    --font-family-matic : '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    --color-primary: #212121;
+    --color-accent: #f70001;
+    --color-accent-shadow:  #ff898a;
+    --color-light-red: #ff9990;
+    --color-okay: rgb(0,221,117);
+    --color-green: rgb(00 ,128, 64);
+    --color-red: #ff5056;
+    --color-red-shadow: #ffbabc;
+    --color-red-half-transparent:rgba(254,46,89, .4);
+    --color-blue: #00bfe3;
+    --color-blue-dark: #0071bc;
+    --color-bronze: #CD7F32;
+    --color-blue-dark-trans: rgba(0,191,227,1);
+    --color-primary-light: rgba(33,33,33,.1);
+    --color-blue2: #46bcde;
+    --status-msg-bg:rgba(0,191,227,0), rgba(0,191,227,0);
+    --color-yellow: #e3c454;
+    --color-angular:rgb(221,0,49);
+    --color-react:rgb(97,218,251);
+    --color-node:rgb(102,204,51);
+    --color-course-description:rgba(255,255,255,0.4);
+    --color-gui-panel: rgb(209,97,134);
+    --dim-border-radius-primary: 3px;
+    --dim-page-margin: 4rem;
+    --color-white:#f5eeee;
+    --color-vanilla:rgb(223,176,122);
+
+    /*background colors*/
+    --color-body-background: #18131a;
+    --color-light-red: #ff9990;
+
+    /*text*/
+    --primary-font-family: 'Roboto';
+    --code-font-family: "Anonymous-pro";
+    --heading-font-family: "Frutiger";
+    --dim-text-stroke: .1px;
+    --color-text-stroke: rgba(255, 255, 255);
+    --color-text-primary:#b6b6b6;
+    --color-text-secondary: rgb(101,101,101);
+    --dim-h1-font-size: 1.4rem;
+    --dim-h2-font-size: 1.2rem;
+    --dim-sidebar-font-size: 1.3rem;
+    --paragraph-font-family: "Lato";
+
+    /*card*/
+    --dim-card-margin: .2rem;
+    --dim-card-width: 100vw;
+
+    /*form*/
+    --color-input: #fff;
+    --dim-form-margin: .75rem;
+    --dim-form-input-margin: .5rem;
+    --dim-form-padding: 1rem;
+    --dim-form-input-padding: .75rem;
+    --dim-form-input-submit-margin: .75rem;
+    --dim-form-input-border: 1px solid rgba(255, 255, 255, .2);
+
+    /*add-page*/
+    --dim-add-page-margin:.2rem;
+    --dim-add-page-padding: 1rem;
+    --dim-add-page-line-height: 1.5rem;
+    --dim-add-page-font-size: 1rem;
+    --dim-add-page-icon-font-size: 1.5rem;
+    --dim-add-page-icon-line-height: 2rem;
+
+    /*toastr*/
+    --pos-toastr: fixed;
+    --pos-toastr-top: 3.9rem;
+    --pos-toastr-right: 1rem;
+    --depth-toastr:1500;
+    --dim-toastr-width: 65vw;
+
+    /*toast*/
+    --pos-toast-close-top: .85rem;
+    --pos-toast-close-right: 1rem;
+    --dim-toast-margin-top: 1rem;
+    --dim-toast-padding: 1rem;
+    --dim-toast-font-size: 1rem;
+    --dim-toast-padding:1rem;
+    --color-toast-warning: rgba(255,20,88,0.80);
+    --color-toast-okay: rgba(00, 128, 64,0.80);
+    --dim-toast-warning-box-shadow: 1px 1px 5px -0px rgba(255, 20, 80, 0.80);
+    --dim-toast-okay-box-shadow: 1px 1px 5px -0px rgba(0,221,117,0.80);
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    background: var(--color-text-secondary);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--color-text-stroke);
+}
+
+
+::-webkit-scrollbar:hover {
+    height: 10px;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #444;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #333;
+    cursor:pointer;
+}
+div:hover::-webkit-scrollbar-corner {
+    width: 5px;
+    /*background-color: red !important;*/
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #111;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    background-color: #444;
+}
+
+
+
+
+body, html{
+    -webkit-font-smoothing: subpixel-antialiased !important;
+    scroll-behavior: smooth;
+    max-width: 100%;
+    font-family: var(--primary-font-family);
+    background: var(--color-body-background);
+}
+
+h1{
+    color: var(--color-text-primary);
+    font-size: calc(var(--dim-h1-font-size) + .5vw);
+    font-weight: 600;
+}
+code{
+    font-family: var(--code-font-family);
+}
+
+h2{
+    color: var(--color-text-primary);
+    font-size: calc(var(--dim-h2-font-size) + .5vw);
+    font-weight: 600;
+}
+
+.card{
+    background: var(--color-primary);
+    font-family: var(--primary-font-family);
+    border: 1px solid;
+    padding:.75rem .75rem;
+    -webkit-box-shadow: 2px 3px 5px -0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 3px 5px -0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 5px -0px rgba(0,0,0,0.75);
+    transition: box-shadow 200ms ease-in-out;
+    border-color: rgba(0,0,0,0.14);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    z-index: 100;
+}
+
+.card.card-medium{
+    height: auto;
+    width: var(--dim-card-width);
+    padding: var(--dim-form-padding);
+    margin: var(--dim-card-margin);
+}
+.card.raw{
+    width: 60%;
+    height: auto;
+}
+
+
+form textarea{
+    color: var(--color-text-primary);
+    background: none;
+    padding: var(--dim-form-input-padding);
+    font-size: 1.3rem;
+    border: var(--dim-form-input-border);
+    border-radius: var(--dim-border-radius-primary);
+}
+form input{
+    color: var(--color-text-primary);
+    background: none;
+    padding: var(--dim-form-input-padding);
+    font-size: 1.3rem;
+    border: var(--dim-form-input-border);
+    border-radius: var(--dim-border-radius-primary);
+}
+form input[type="submit"]{
+    -webkit-appearance: none;
+    background: none;
+    color: var(--color-accent);
+    margin-top: var(--dim-form-input-submit-margin);
+    border: 1px solid var(--color-accent);
+    cursor: pointer;
+}
+
+.page-container{
+    /* margin-top: var(--dim-page-margin); */
+    /* margin-bottom: var(--dim-page-margin); */
+}
+
+@media only screen and (min-width: 600px){
+    .card.card-medium{
+        width: calc(var(--dim-card-width) - 50vw);
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: calc(var(--dim-card-margin) + 2vw);
+        margin-bottom: calc(var(--dim-card-margin)+20vw);
+    }
+}
+
+@media screen and (orientation: landscape){
+    .card.card-medium{
+        margin-bottom: 5vh;
+    }
+}
+
+@media screen and (min-width: 1000px){
+    .card.card-medium{
+        width: calc(var(--dim-card-width) - 70vw);
+    }
+}
+
+

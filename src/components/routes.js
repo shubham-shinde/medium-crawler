@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import * as actions from "../actions/actions";
 // Components import
 // import LandingPage from './Landing/landing-page';
 // import Header from '../components/Header/Header.js';
@@ -21,6 +23,10 @@ import { Switch, Route } from 'react-router-dom';
 // import NotPartOfDesign from '../components/NotPartOfDesign/NotPartOfDesign.js'
 
 class Routes extends Component {
+  
+  componentWillMount() {
+    this.props.actions.connect_to_soc();
+  }
   render() {
     return (
       <div style={styles.fill}>
@@ -73,4 +79,11 @@ const mapStateToProps = (state) => {
     location: state.router.location,
   };
 };
-export default connect(mapStateToProps)(Routes);
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+      actions: bindActionCreators(actions, dispatch) 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);
