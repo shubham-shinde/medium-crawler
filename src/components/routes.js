@@ -4,29 +4,18 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as actions from "../actions/actions";
-// Components import
-// import LandingPage from './Landing/landing-page';
-// import Header from '../components/Header/Header.js';
-// import Footer from '../components/Footer/Footer.js';
-// import signIn from '../components/signIn/signIn.js';
-// import colorKey from '../components/colorKey/colorKey.js';
-// import NavBar from '../components/Navbar/Navbar';
-// import WhyMatic from '../components/WhyMatic/WhyMatic';
-// import Marketplace from '../components/Marketplace/Marketplace.js';
-// import Wallet from '../components/Wallet/Wallet.js';
-// import Activity from '../components/Activity/Activity.js';
-// import MaticCard from '../components/MaticCard/MaticCard.js';
-// import MyCard from '../components/MyCard/MaticCard';
-// import AddFund from '../components/AddFund/AddFund.js';
-// import MaticNetwork from '../components/MaticNetwork/MaticNetwork.js';
-// import Address from '../components/Address/Address.js';
-// import NotPartOfDesign from '../components/NotPartOfDesign/NotPartOfDesign.js'
+import * as socConnections from '../actions/socket/socket';
+import Main from './Main/main';
 
 class Routes extends Component {
   
-  componentWillMount() {
-    this.props.actions.connect_to_soc();
+  constructor(props) {
+    super(props);
+    this.state = {
+      soc : socConnections.connect_to_socket()
+    }
   }
+
   render() {
     return (
       <div style={styles.fill}>
@@ -36,22 +25,9 @@ class Routes extends Component {
             minHeight: '100vh',
           }}>
           <div style={{ paddingBottom: '80px' }}>
-            {/* <NavBar />ter */}
+            {/* <NavBar /> */}
             <Switch location={this.props.location}>
-              {/* <Route exact path="/" component={LandingPage} />
-              <Route exact path="/signin" component={signIn} />
-              <Route exact path="/colorKey" component={colorKey} />
-              <Route exact path="/whymatic" component={WhyMatic} />
-              <Route exact path="/marketplace/:page" component={Marketplace} />
-              <Route exact path="/marketplace" component={Marketplace} />
-              <Route exact path="/wallet" component={Wallet} />
-              <Route exact path="/activity" component={Activity} />
-              <Route exact path="/addfund" component={AddFund} />
-              <Route exact path="/maticcard" component={MaticCard} />
-              <Route exact path="/mycard" component={MyCard} />
-              <Route exact path="/maticnetwork" component={MaticNetwork} />
-              <Route exact path="/myland" component={Address} />
-              <Route exact path="/notpartofdesign" component={NotPartOfDesign}/> */}
+              <Route exact path="/" render={() => <Main soc={this.state.soc} />} />
             </Switch>
             {/* <Footer /> */}
           </div>

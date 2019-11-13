@@ -1,5 +1,6 @@
 import request from 'request';
 import cheerio from 'cheerio';
+import * as socTypes from '../src/actions/socket/socket-event-types';
 
 function doRequest(url) {
     return new Promise(function (resolve, reject) {
@@ -14,7 +15,7 @@ function doRequest(url) {
 }
 
 
-export const fetchArticleWithQuery = async (query) => {
+export const fetchArticleWithQuery = async (socket, query, cb) => {
     const html = await doRequest('https://medium.com/tag/' + query)
     
     const $ = cheerio.load(html);
@@ -60,24 +61,29 @@ export const fetchArticleWithQuery = async (query) => {
         })
 
     });
+
+    cb({data, related}) //send current data
+
     for(let i in data) {
+        socket.emit(socTypes.LOADING_THIS, data[i].id);
+
         console.log(data[i].link);
-        if(i>2) break; // limit
         
         const post = await doRequest(data[i].link);
         const post$ = cheerio.load(post);
         
         const tags = [];
+        
         post$('.r > ul > li > a').each((i, el) => {
             tags.push({
                 tag : $(el).text(),
                 link : $(el).attr('href')
             });
         })
+
         data[i].tags = tags;
         data[i].post = post$('body').html();
-    }
 
-    // console.log(data);
-    return {data, related};
+        socket.emit(socTypes.LOADED_THIS, data[i]);
+    }
 };

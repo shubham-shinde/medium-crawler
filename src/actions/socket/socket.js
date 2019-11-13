@@ -1,49 +1,37 @@
 import io from "socket.io-client";
 // import { SERVER_PORT, SERVER_URL, TOKEN_NAME } from "../../../../consts/app-config";
-// import { store } from '../../store/config';
-// import * as chatActions from './chatbox-actions';
-// import * as types from './chat-socket-types';
+import { store } from '../../store/config';
+import * as actions from '../actions';
+import * as SOC_TYPES from './socket-event-types';
 
-const NSP = "chat";
 const channel = `http://localhost:9001`;
-// console.log(channel, 'chat channel...........');
-
-
-// const chatSocket = io.connect(channel, { query: { token }, reconnectionDelay: 1000, reconectionDelayMax: 5000 });
-
-// let chatSocket = io;
 
 export const connect_to_socket = () => {
-    const chatSocket = io.connect(channel, { reconnectionDelay: 1000, reconectionDelayMax: 5000 });
+    const socket = io.connect(channel, { reconnectionDelay: 1000, reconectionDelayMax: 5000 });
 
-    chatSocket.on("connect", () => {
+    socket.on("connect", () => {
         //store.dispatch(terminalActions.terminal_started());
-        console.log('chat socket connected...................');
+        console.log('socket connected...................');
         
     });
 
-    chatSocket.on('disconnect', () => {
-        console.log('chat socket disconnected..............');    
+    socket.on('disconnect', () => {
+        console.log('socket disconnected..............');    
     })
 
-    // chatSocket.on(types.CHAT_DATA, (data, second) => {
-    //     console.log(data, second, 'All Data.......');
-    //     if(data.status) store.dispatch(chatActions.add_on_connecections(data.chatData))
-        
-    // })
-    // chatSocket.on(types.CHAT_MSG, (data) => {
-    //     console.log('listen..........form server for other', data);
-    //     if(data.status) store.dispatch(chatActions.add_one(data.msgObj));
-    //     else store.dispatch(pop_toast(data));
-    // })
-    // return chatSocket;
+    socket.on(SOC_TYPES.LOADED_THIS, (data) => {
+        if(data.status) store.dispatch(actions.loaded_this(data.value))
+    })
+
+    socket.on(SOC_TYPES.LOADING_THIS, (data) => {
+        console.log('listen..........form server for other', data);
+        if(data.status) store.dispatch(actions.loading_this(data.value));
+    })
+    
+    return socket;
 }
 
-export const disconnect = (chatSocket) => {
-    chatSocket.close();
+export const disconnect = (socket) => {
+    socket.close();
 }
-
-// chatSocket.on(types.)
-
-// export default chatSocket;
 

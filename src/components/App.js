@@ -4,6 +4,7 @@ import './common/styles/fonts.css'
 // import './common/styles/root.css';
 // import './common/styles/variables.scss';
 import './common/styles/main.scss'
+import './common/styles/bootstrap.css';
 
 import React from 'react'
 import PropTypes from 'prop-types'
