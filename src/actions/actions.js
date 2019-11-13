@@ -11,16 +11,23 @@ export const loading_this = (id) => ({
     id
 })
 
+export const query_update = (query) => ({
+    type: types.UPDATE_QUERY,
+    query
+})
+
 export const loaded_this = (update) => ({
-    type: types.loaded_this,
+    type: types.LOADED_THIS,
     update
 })
 
+export const put_loader = () => ({
+    type: types.PUT_LOADER,
+})
+
 export const query_search = (soc, query) => (dispatch) => {
-    console.log(soc);
-    
+    dispatch(put_loader());    
     soc.emit(soctypes.QUERY_SEARCH, query, (data) => {
-        console.log(data);
-        
+        dispatch({type: types.QUERY_SEARCH, posts: data.data, related: data.related})
     })    
 }

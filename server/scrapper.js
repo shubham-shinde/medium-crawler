@@ -16,6 +16,8 @@ function doRequest(url) {
 
 
 export const fetchArticleWithQuery = async (socket, query, cb) => {
+    console.log(query);
+    
     const html = await doRequest('https://medium.com/tag/' + query)
     
     const $ = cheerio.load(html);
@@ -31,9 +33,7 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
     const data = [];
     $('.postArticle').each((i, el) => {
 
-        const title = $(el)
-            .find('.graf--title')
-            .text();
+        const title = $(el).find('.graf--title').text();
 
         const id = $(el).attr('data-post-id')
 
@@ -58,8 +58,8 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
             date,
             readingTime,
             imgURL,
+            loading: true
         })
-
     });
 
     cb({data, related}) //send current data
@@ -83,6 +83,7 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
 
         data[i].tags = tags;
         data[i].post = post$('body').html();
+        data[i].loading = false;
 
         socket.emit(socTypes.LOADED_THIS, data[i]);
     }

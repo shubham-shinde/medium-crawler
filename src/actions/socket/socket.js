@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 // import { SERVER_PORT, SERVER_URL, TOKEN_NAME } from "../../../../consts/app-config";
-import { store } from '../../store/config';
+import {store} from '../../index';
 import * as actions from '../actions';
 import * as SOC_TYPES from './socket-event-types';
 
@@ -20,12 +20,13 @@ export const connect_to_socket = () => {
     })
 
     socket.on(SOC_TYPES.LOADED_THIS, (data) => {
-        if(data.status) store.dispatch(actions.loaded_this(data.value))
+        console.log('loaded', data);
+        store.dispatch(actions.loaded_this(data))
     })
 
     socket.on(SOC_TYPES.LOADING_THIS, (data) => {
-        console.log('listen..........form server for other', data);
-        if(data.status) store.dispatch(actions.loading_this(data.value));
+        console.log('loading', data);
+        store.dispatch(actions.loading_this(data));
     })
     
     return socket;

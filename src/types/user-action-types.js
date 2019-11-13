@@ -3,6 +3,8 @@ const nsp = 'USER_ACTION/'
 //login popups
 export const LOGIN = `${nsp}LOGIN`;
 export const LOGOUT = `${nsp}LOGOUT`;
+export const UPDATE_QUERY = `${nsp}UPDATE_QUERY`;
+export const PUT_LOADER = `${nsp}PUT_LOADER`;
 
 //socket actions
 export const CONNECT_TO_SOCKET = `${nsp}CONNECT_TO_SOCKET`;
