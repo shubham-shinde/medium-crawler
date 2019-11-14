@@ -39,6 +39,16 @@ class Post extends Component {
 
     }
 
+
+    responsesUI = (resp) => (
+        <div className="card bg-light mb-3" key={resp.id}>
+            <div className='m-2'>
+                <h3 className="card-title mb-3">{resp.name}</h3>
+                <p className="m-0">{resp.content}</p>
+            </div>
+        </div>
+    )
+
     tagsUI = (tag, indx) => (
         <button
             key={indx}
@@ -94,6 +104,18 @@ class Post extends Component {
                     post.tags && <div className="d-flex mb-2 align-items-center flex-wrap"> <h4>Tags : </h4> {post.tags.map(this.tagsUI)} </div>
                 }
                 <p className="post-text" dangerouslySetInnerHTML={{__html: post.post}} />
+                <div className='d-flex justify-content-between'>
+                    <button onClick={this.goBack} className="btn btn-dark ml-2"><Fa_back/> Back</button>
+                    <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
+                </div>
+                {
+                    post.responses && 
+                    <div>
+                        <h1 className="mt-5">Responses</h1>
+                        {post.responses.map(this.responsesUI)}
+                    </div>
+                    
+                }
                 <div className='d-flex justify-content-between'>
                     <button onClick={this.goBack} className="btn btn-dark ml-2"><Fa_back/> Back</button>
                     <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
