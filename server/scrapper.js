@@ -1,6 +1,8 @@
 import request from 'request';
 import cheerio from 'cheerio';
 import * as socTypes from '../src/actions/socket/socket-event-types';
+import Post from './db';
+import Posts from './db';
 
 function doRequest(url) {
     return new Promise(function (resolve, reject) {
@@ -68,7 +70,12 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
         for(let i in data) {
             const s_tym = Date.now();
             socket.emit(socTypes.LOADING_THIS, data[i].id);
-
+            const pst = await Post.findOne({id : data[i].id}).exec();
+            if(pst) {
+                const e_tym = Date.now();
+                socket.emit(socTypes.LOADED_THIS, {...pst._doc, time : e_tym - s_tym});
+                continue;
+            }
             console.log(data[i].link);
             
             const post = await doRequest(data[i].link);
@@ -108,6 +115,10 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
             const e_tym = Date.now();
             data[i].time = e_tym - s_tym;
             socket.emit(socTypes.LOADED_THIS, data[i]);
+            await Posts.create({
+                ...data[i]
+            });
+            console.log(data[i].id, ' added in db');
         }
     }
     catch(err) {
