@@ -67,17 +67,21 @@ class Post extends Component {
         const post = {...posts[indx]};
         
         return (
-            <div className="main">
+            <div className="main overflow-hidden">
                 <img src={post.imgURL} className='img-fluid' />
-                <h2 className="card-title my-2">{post.title}</h2>
-                <p className="my-1">
+                <h1 className="card-title my-2">{post.title}</h1>
+                <div className='d-flex justify-content-end'>
+                    <button onClick={this.goBack} className="btn btn-dark mr-2"><Fa_back/> Back</button>
+                    <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
+                </div>
+                <h4 className="my-1">
                     <span>Description - </span>
                     <span>{post.description}</span>
-                </p>
-                <p className="my-1">
+                </h4>
+                <h3 className="my-1">
                     <h>Author - </h>
                     <span>{post.author}</span>
-                </p>
+                </h3>
                 <p className="my-1">
                     <span>Date - </span>
                     <span>{post.date}</span>
@@ -87,10 +91,13 @@ class Post extends Component {
                     <span>{post.readingTime}</span>
                 </p>
                 {
-                    post.tags && <div className="d-flex mb-2 align-items-center flex-wrap"> <h3>Tags : </h3> {post.tags.map(this.tagsUI)} </div>
+                    post.tags && <div className="d-flex mb-2 align-items-center flex-wrap"> <h4>Tags : </h4> {post.tags.map(this.tagsUI)} </div>
                 }
-                <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
-                <button onClick={this.goBack} className="btn btn-dark ml-2"><Fa_back/> Back</button>
+                <p className="post-text" dangerouslySetInnerHTML={{__html: post.post}} />
+                <div className='d-flex justify-content-between'>
+                    <button onClick={this.goBack} className="btn btn-dark ml-2"><Fa_back/> Back</button>
+                    <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
+                </div>
             </div>
         );
     }

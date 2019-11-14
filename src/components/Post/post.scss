@@ -11,6 +11,27 @@
     padding-left: 2.375rem;
 }
 
+.main .post-text img {
+    max-width: 100% !important;
+    height: auto !important;
+    // display: none !important;
+}
+.main .post-text {
+    position: relative;
+    a, h1, h2, button {
+        display: none !important;
+    }
+}
+
+.main .post-text::before {
+    content : ' ';
+    width : 100%;
+    height : 1.2rem;
+    position: absolute;
+    top : 0;
+    background: white;
+}
+
 .has-search .form-control-feedback {
     position: absolute;
     z-index: 2;

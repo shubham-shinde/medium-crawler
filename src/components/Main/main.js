@@ -40,23 +40,25 @@ class Main extends Component {
         <div className="card bg-light mb-3" key={post.id}>
             <img src={post.imgURL} className='img-fluid' />
             <div className='m-2'>
-                <h4 className="card-title">{post.title}</h4>
+                <h3 className="card-title mb-3">{post.title}</h3>
                 {/* <p>{post.description}</p> */}
-                <p>BY : {post.author}</p>
-                {/* <p className="m-0">
-                    <span>Date : </span>
-                    <span>{post.date}</span>
-                </p>
-                <p className="m-0">
-                    <span>Reading time : </span>
-                    <span>{post.readingTime}</span>
-                </p>
-                {
-                    post.tags && <p> Tags : {post.tags.map((t) => t.tag + ', ')} </p>
-                } */}
-                {post.loading 
-                    ? post.crawling ? <h2 className="text-success">CRAWLING...</h2> : <h4 className="text-danger">PENDING FOR MORE INFO....</h4> 
-                    : <Link to={"/post/"+post.id} className="btn btn-info">Open post <Fa_Link/></Link>}
+                <div className="d-flex align-items-center justify-content-between">
+                    <p className="m-0">BY : {post.author}</p>
+                    {/* <p className="m-0">
+                        <span>Date : </span>
+                        <span>{post.date}</span>
+                    </p>
+                    <p className="m-0">
+                        <span>Reading time : </span>
+                        <span>{post.readingTime}</span>
+                    </p>
+                    {
+                        post.tags && <p> Tags : {post.tags.map((t) => t.tag + ', ')} </p>
+                    } */}
+                    {post.loading 
+                        ? post.crawling ? <h2 className="text-success">CRAWLING...</h2> : <h4 className="text-danger">PENDING FOR MORE INFO....</h4> 
+                        : <Link to={"/post/"+post.id} className="btn btn-lg btn-info">Open post <Fa_Link/></Link>}
+                </div>
             </div>
         </div>
     )

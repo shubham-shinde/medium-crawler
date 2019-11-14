@@ -81,23 +81,22 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
                 link : $(el).attr('href')
             });
         })
-
-        console.log(`https://medium.com/p/${data[i].id}/responses/show`);
+        console.log(`https://medium.com/p/${data[i].id}/responses/show?source=follow_footer--------------------------follow_footer-`);
         
-        const respPage = await doRequest(`https://medium.com/p/${data[i].id}/responses/show`)
+        const respPage = await doRequest(`https://medium.com/p/${data[i].id}/responses/show?source=follow_footer--------------------------follow_footer-`)
         const resp$ = cheerio.load(respPage);
 
         const responses = [];
-        console.log(resp$('.postArticle--short').length);
+        console.log(resp$('.postArticle'));
         
-        resp$('.postArticle--short').each((i, el) => {
+        resp$('.postArticle').each((i, el) => {
             const readTime = $(el).find('.readingTime').text();
             console.log(readTime, 'time');
             
         })
 
         data[i].tags = tags;
-        data[i].post = post$('body').html();
+        data[i].post = post$('article').html();
         data[i].loading = false;
         data[i].crawling = false;
 
