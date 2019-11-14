@@ -89,4 +89,5 @@ module.exports = {
   'fa-bars': require('react-icons/lib/fa/bars'),
   'fa-bell': require('react-icons/lib/fa/bell'),
   'fa-angle-left': require('react-icons/lib/fa/angle-left'),
+  'fa-external-link-alt': require('react-icons/lib/fa/external-link'),
 };

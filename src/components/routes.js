@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as actions from "../actions/actions";
 import * as socConnections from '../actions/socket/socket';
+import Post from './Post/post';
 import Main from './Main/main';
 
 class Routes extends Component {
@@ -28,6 +29,7 @@ class Routes extends Component {
             {/* <NavBar /> */}
             <Switch location={this.props.location}>
               <Route exact path="/" render={() => <Main soc={this.state.soc} />} />
+              <Route exact path="/post/:id" component={Post} />
             </Switch>
             {/* <Footer /> */}
           </div>

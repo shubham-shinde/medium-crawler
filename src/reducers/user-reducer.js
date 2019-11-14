@@ -51,7 +51,9 @@ const loginFormReducer = (state = initialState, actions) => {
       const posts = [...newState.posts];
       const indx = posts.findIndex(e => e.id === id);
       if(indx<0) return newState;
-      posts[indx].loading = true;
+      const post = {...posts[indx]};
+      post.crawling = true;
+      posts[indx] = post;
       newState.posts = posts;
       return newState;
     }

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import * as actions from "../../actions/actions";
 import icons from '../../services/icon-service';
 import './main.scss';
 
 const Fa_Search = icons['fa-search'];
+const Fa_Link = icons['fa-external-link-alt'];
 
 class Main extends Component {
 
@@ -39,9 +41,9 @@ class Main extends Component {
             <img src={post.imgURL} className='img-fluid' />
             <div className='m-2'>
                 <h4 className="card-title">{post.title}</h4>
-                <p>{post.description}</p>
-                <p className="m-0">Author : {post.author}</p>
-                <p className="m-0">
+                {/* <p>{post.description}</p> */}
+                <p>BY : {post.author}</p>
+                {/* <p className="m-0">
                     <span>Date : </span>
                     <span>{post.date}</span>
                 </p>
@@ -51,10 +53,10 @@ class Main extends Component {
                 </p>
                 {
                     post.tags && <p> Tags : {post.tags.map((t) => t.tag + ', ')} </p>
-                }
+                } */}
                 {post.loading 
-                    ? <h3>LOADING MORE INFO....</h3> 
-                    : <a href={post.link} type="button" className="btn btn-primary" target="_blank">Open post on medium</a>}
+                    ? post.crawling ? <h2 className="text-success">CRAWLING...</h2> : <h4 className="text-danger">PENDING FOR MORE INFO....</h4> 
+                    : <Link to={"/post/"+post.id} className="btn btn-info">Open post <Fa_Link/></Link>}
             </div>
         </div>
     )
