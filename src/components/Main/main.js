@@ -43,7 +43,10 @@ class Main extends Component {
                 <h3 className="card-title mb-3">{post.title}</h3>
                 {/* <p>{post.description}</p> */}
                 <div className="d-flex align-items-center justify-content-between">
-                    <p className="m-0">BY : {post.author}</p>
+                    <div>
+                        <p className="m-0">BY : {post.author}</p>
+                        { post.time && <p className="m-0">Time taken : {post.time/1000} sec</p>}
+                    </div>
                     {/* <p className="m-0">
                         <span>Date : </span>
                         <span>{post.date}</span>

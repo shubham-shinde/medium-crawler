@@ -66,6 +66,7 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
         cb({data, related}) //send current data
 
         for(let i in data) {
+            const s_tym = Date.now();
             socket.emit(socTypes.LOADING_THIS, data[i].id);
 
             console.log(data[i].link);
@@ -104,7 +105,8 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
             data[i].loading = false;
             data[i].crawling = false;
             data[i].responses = responses;
-
+            const e_tym = Date.now();
+            data[i].time = e_tym - s_tym;
             socket.emit(socTypes.LOADED_THIS, data[i]);
         }
     }
