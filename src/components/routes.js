@@ -29,7 +29,7 @@ class Routes extends Component {
             {/* <NavBar /> */}
             <Switch location={this.props.location}>
               <Route exact path="/" render={() => <Main soc={this.state.soc} />} />
-              <Route exact path="/post/:id" component={Post} />
+              <Route exact path="/post/:id" render={(ele) => <Post soc={this.state.soc} {...ele} />} />
             </Switch>
             {/* <Footer /> */}
           </div>

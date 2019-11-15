@@ -16,6 +16,44 @@ function doRequest(url) {
     });
 }
 
+const getTags = async (link) => {
+    const postHtml = await doRequest(link);
+    const post$ = cheerio.load(postHtml);
+    
+    const tags = [];
+    
+    post$('.r > ul > li > a').each((i, el) => {
+        tags.push({
+            tag : post$(el).text(),
+            link : post$(el).attr('href')
+        });
+    })
+
+    const postArticle = post$('article').html();
+
+    return { tags, postArticle}
+}
+
+const getReaponses = async (id) => {
+    const responses = [];
+    const respJson = await doRequest(`https://medium.com/_/api/posts/${id}/responsesStream?filter=other`)
+    const resp = JSON.parse(respJson.substring(16));
+    const posts = resp.payload.references.Post;
+    const users = resp.payload.references.User;
+
+    for(let p in posts) {
+        const content = posts[p].previewContent.bodyModel.paragraphs.map(e => e.text).join('\n');
+        const creatorId = posts[p].creatorId;
+        const name = users[creatorId].name;
+        responses.push({
+            content,
+            name,
+            id : p
+        })                
+    }
+    return responses;
+}
+
 const crawlPost = async (post) => {
     try {
         const s_tym = Date.now(); //start time of crawling
@@ -27,37 +65,14 @@ const crawlPost = async (post) => {
             const e_tym = Date.now(); //end time of crawling
             return {...pst._doc, time : e_tym - s_tym};
         }
-        const postHtml = await doRequest(post.link);
-        const post$ = cheerio.load(postHtml);
         
-        const tags = [];
-        
-        post$('.r > ul > li > a').each((i, el) => {
-            tags.push({
-                tag : post$(el).text(),
-                link : post$(el).attr('href')
-            });
-        })
-        
-        const responses = [];
-        const respJson = await doRequest(`https://medium.com/_/api/posts/${post.id}/responsesStream?filter=other`)
-        const resp = JSON.parse(respJson.substring(16));
-        const posts = resp.payload.references.Post;
-        const users = resp.payload.references.User;
+        // const {tags, postArticle} = await getTags(post.link);
+        // const responses = await getReaponses(post.id);
 
-        for(let p in posts) {
-            const content = posts[p].previewContent.bodyModel.paragraphs.map(e => e.text).join('\n');
-            const creatorId = posts[p].creatorId;
-            const name = users[creatorId].name;
-            responses.push({
-                content,
-                name,
-                id : p
-            })                
-        }
-
+        const [T, responses] = await Promise.all([getTags(post.link), getReaponses(post.id)]);
+        const {tags, postArticle} = T;
         post.tags = tags;
-        post.post = post$('article').html();
+        post.post = postArticle;
         post.loading = false;
         post.crawling = false;
         post.responses = responses;

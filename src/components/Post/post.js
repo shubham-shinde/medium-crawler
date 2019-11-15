@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {  } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from "../../actions/actions";
@@ -36,7 +36,7 @@ class Post extends Component {
 
         this.props.actions.query_update(st);
         this.props.actions.query_search(this.props.soc, st);
-
+        
     }
 
 
@@ -50,15 +50,16 @@ class Post extends Component {
     )
 
     tagsUI = (tag, indx) => (
-        <button
+        <Link
             key={indx}
+            to={'/'}
             data={tag.tag}
             onClick={this.changeTag}
             type="button"
             class="btn m-1 btn-light"
         >
             {tag.tag}
-        </button>
+        </Link>
     )
 
     render() {
@@ -66,7 +67,7 @@ class Post extends Component {
         const { match } = this.props;
         const id = match && match.params && match.params.id
         const indx = posts.findIndex(e => e.id === id);
-        console.log(id, 'id');
+        console.log(id, 'id', this.props.ele);
         if(indx<0) {
             return (
                 <div className="main">

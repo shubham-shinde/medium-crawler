@@ -16,12 +16,6 @@ app.use(express.static(__dirname + '/../dist/'))
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/../dist/index.html');
 });
-//the first api to hit which will give all the cards and user data if token is awailable
-// app.get('/init', async (req, res, next) => {
-//     console.log(req.query);
-//     const data = await scrapper.fetchArticleWithQuery(req.query.q);    
-//     res.send(data)
-// });
 
 io.on('connection', function (socket) {
     console.log('a user connected');
