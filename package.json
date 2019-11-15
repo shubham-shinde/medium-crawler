@@ -6,6 +6,7 @@
   "scripts": {
     "start": "concurrently --kill-others \"npm run open:src\" \"npm run lint:watch\"",
     "server": "nodemon --exec babel-node server/index.js",
+    "serve": "babel-node server/index.js",
     "build": "ENV='production' babel-node tools/build.js",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "esw webpack.config.* src tools --color",
