@@ -9,6 +9,7 @@ import * as socTypes from '../src/actions/socket/socket-event-types';
 let app = express();
 var http = HTTP.createServer(app);
 var io = Socket(http);
+var port = 80;
 
 app.use(cors());
 app.use(express.static(__dirname + '/../dist/'))
@@ -25,6 +26,6 @@ io.on('connection', function (socket) {
     })
 });
 
-http.listen(9001, () => {
-    console.log("Server running on port 9001");
+http.listen(port, () => {
+    console.log("Server running on port "+port);
 });

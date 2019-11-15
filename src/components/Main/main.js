@@ -116,7 +116,7 @@ class Main extends Component {
                 }
                 {posts.map(this.cardUI)}
                 {
-                    more && <button onClick={this.load_more} className="btn btn-info">LOAD MORE</button>
+                    more && <button onClick={this.load_more} className="btn btn-info">LOAD 10 MORE</button>
                 }
                 {
                     loading && <h2>LOADING......</h2>

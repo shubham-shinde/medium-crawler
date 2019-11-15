@@ -10,7 +10,8 @@
     "open:src": "babel-node tools/srcServer.js",
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",
-    "build-dev": "ENV='development' babel-node tools/build.js"
+    "build-dev": "ENV='development' babel-node tools/build.js",
+    "test" : "mocha server/test/index.js"
   },
   "keywords": [
     "frontend",
@@ -39,6 +40,7 @@
     "brace": "^0.11.1",
     "browser-sync": "^2.26.3",
     "cacache": "^11.2.0",
+    "chai": "^4.2.0",
     "cheerio": "^1.0.0-rc.3",
     "concurrently": "^3.5.1",
     "connected-react-router": "^4.4.1",
@@ -62,6 +64,7 @@
     "immutable-treeutils": "^1.2.0",
     "lint": "^1.1.2",
     "lodash.throttle": "^4.1.1",
+    "mocha": "^6.2.2",
     "moment": "^2.24.0",
     "mongoose": "^5.7.11",
     "node-sass": "^4.10.0",
