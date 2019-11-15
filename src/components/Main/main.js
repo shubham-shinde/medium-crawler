@@ -83,7 +83,7 @@ class Main extends Component {
     )
 
     render() {
-        const {posts, related, query, loading, more }= this.props.user;
+        const {posts, related, query, loading, more, example }= this.props.user;
         return (
             <div className="main">
                 <div class="form-group has-search">
@@ -98,13 +98,21 @@ class Main extends Component {
                     />
                 </div>
                 {
-                    related.length!==0 &&
+                    related.length!==0 ?
                     <div className='my-4'>
                         <h3>Related Tags</h3>
                         <div className='d-flex flex-wrap'>
                             {related.map(this.tagsUI)}
                         </div>
                     </div>
+                    :
+                    <div className='my-4'>
+                        <h3>Example</h3>
+                        <div className='d-flex flex-wrap'>
+                            {example.map(this.tagsUI)}
+                        </div>
+                    </div>
+
                 }
                 {posts.map(this.cardUI)}
                 {

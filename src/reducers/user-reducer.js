@@ -6,6 +6,7 @@ const initialState = {
   socket : {},
   posts : [],
   related : [],
+  example : [{tag: 'programming'}, { tag: 'life'}, { tag: 'startup'}, { tag: 'javascript'}, { tag: 'react'}, {tag : 'software-development'}],
   loading : false,
   more : false
 }
