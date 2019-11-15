@@ -18,9 +18,12 @@ function doRequest(url) {
 
 
 export const fetchArticleWithQuery = async (socket, query, cb) => {
+    const {q, ind } = query;
+    const count = 8; //posts to send;
     console.log(query);
+    
     try {
-        const html = await doRequest('https://medium.com/tag/' + query)
+        const html = await doRequest('https://medium.com/tag/' + q)
         
         const $ = cheerio.load(html);
         
@@ -64,20 +67,30 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
                 crawling: false
             })
         });
-
-        cb({data, related}) //send current data
+        console.log('searched items ', data.length);
+        
+        //check for ind
+        if(ind) {
+            const ret = data.slice(ind, ind+count);
+            cb({data: ret, related, more: (data.length > ind+count), add: true})
+        }
+        else {
+            const ret = data.slice(0, count);
+            cb({data : ret, related, more: data.length>count}) //send current data
+        }
 
         for(let i in data) {
-            const s_tym = Date.now();
+            const s_tym = Date.now(); //start time of crawling
             socket.emit(socTypes.LOADING_THIS, data[i].id);
+            console.log(data[i].link);
+
             const pst = await Post.findOne({id : data[i].id}).exec();
-            if(pst) {
-                const e_tym = Date.now();
+            
+            if(pst) { //db return
+                const e_tym = Date.now(); //end time of crawling
                 socket.emit(socTypes.LOADED_THIS, {...pst._doc, time : e_tym - s_tym});
                 continue;
             }
-            console.log(data[i].link);
-            
             const post = await doRequest(data[i].link);
             const post$ = cheerio.load(post);
             

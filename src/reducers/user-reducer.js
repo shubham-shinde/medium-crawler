@@ -2,10 +2,12 @@ import * as actionTypes from '../types/user-action-types'
 
 const initialState = {
   query : '',
+  searched : '',
   socket : {},
   posts : [],
   related : [],
-  loading : false
+  loading : false,
+  more : false
 }
 
 const loginFormReducer = (state = initialState, actions) => {
@@ -32,9 +34,21 @@ const loginFormReducer = (state = initialState, actions) => {
       const related = actions.related;
       newState.posts = posts;
       newState.related = related;
+      newState.more = actions.more;
+      newState.searched = actions.searched;
       newState.loading = false;
       return newState;
     }
+    case actionTypes.ADD_MORE : {
+      const newState = {...state};
+      const posts = actions.posts;
+      newState.posts = [ ...newState.posts , ...posts];
+      newState.more = actions.more;
+      newState.searched = actions.searched;
+      newState.loading = false;
+      return newState;
+    }
+
     case actionTypes.LOADED_THIS : {
       const newState = {...state};
       const update = actions.update;

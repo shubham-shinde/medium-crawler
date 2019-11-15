@@ -26,6 +26,10 @@ class Main extends Component {
         this.props.actions.query_search(this.props.soc, this.props.user.query);
     }
 
+    load_more = () => {
+        this.props.actions.load_more(this.props.soc);
+    }
+
     changeTag = (ev) => {
         let st = ev.currentTarget.getAttribute('data');
         st = st.toLowerCase().split(' ').join('-');
@@ -79,7 +83,7 @@ class Main extends Component {
     )
 
     render() {
-        const {posts, related, query, loading }= this.props.user;
+        const {posts, related, query, loading, more }= this.props.user;
         return (
             <div className="main">
                 <div class="form-group has-search">
@@ -94,9 +98,6 @@ class Main extends Component {
                     />
                 </div>
                 {
-                    loading && <h2>LOADING......</h2>
-                }
-                {
                     related.length!==0 &&
                     <div className='my-4'>
                         <h3>Related Tags</h3>
@@ -106,6 +107,12 @@ class Main extends Component {
                     </div>
                 }
                 {posts.map(this.cardUI)}
+                {
+                    more && <button onClick={this.load_more} className="btn btn-info">LOAD MORE</button>
+                }
+                {
+                    loading && <h2>LOADING......</h2>
+                }
             </div>
         );
     }

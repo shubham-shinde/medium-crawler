@@ -27,7 +27,17 @@ export const put_loader = () => ({
 
 export const query_search = (soc, query) => (dispatch) => {
     dispatch(put_loader());    
-    soc.emit(soctypes.QUERY_SEARCH, query, (data) => {
-        dispatch({type: types.QUERY_SEARCH, posts: data.data, related: data.related})
+    soc.emit(soctypes.QUERY_SEARCH, {q : query}, (data) => {
+        dispatch({type: types.QUERY_SEARCH, posts: data.data, related: data.related, more: data.more, searched: query})
+    })    
+}
+
+export const load_more = (soc) => (dispatch, getState) => {
+    dispatch(put_loader()); 
+    const { user } = getState();
+    const query = user.searched;
+    const ind = user.posts.length
+    soc.emit(soctypes.QUERY_SEARCH, {q : query, ind}, (data) => {
+        dispatch({type: types.ADD_MORE, posts: data.data, more: data.more, searched: query})
     })    
 }
