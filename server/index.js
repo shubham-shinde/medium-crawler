@@ -11,9 +11,10 @@ var http = HTTP.createServer(app);
 var io = Socket(http);
 
 app.use(cors());
+app.use(express.static(__dirname + '/../dist/'))
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/../dist/index.html');
 });
 //the first api to hit which will give all the cards and user data if token is awailable
 // app.get('/init', async (req, res, next) => {

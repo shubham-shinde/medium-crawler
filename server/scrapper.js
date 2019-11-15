@@ -34,8 +34,8 @@ const crawlPost = async (post) => {
         
         post$('.r > ul > li > a').each((i, el) => {
             tags.push({
-                tag : $(el).text(),
-                link : $(el).attr('href')
+                tag : post$(el).text(),
+                link : post$(el).attr('href')
             });
         })
         

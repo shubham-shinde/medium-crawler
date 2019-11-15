@@ -109,17 +109,16 @@ class Post extends Component {
                     <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
                 </div>
                 {
-                    post.responses && 
+                    post.responses.length!==0 && 
                     <div>
                         <h1 className="mt-5">Responses</h1>
                         {post.responses.map(this.responsesUI)}
-                    </div>
-                    
+                        <div className='d-flex justify-content-between'>
+                            <button onClick={this.goBack} className="btn btn-dark ml-2"><Fa_back/> Back</button>
+                            <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
+                        </div>  
+                    </div>                  
                 }
-                <div className='d-flex justify-content-between'>
-                    <button onClick={this.goBack} className="btn btn-dark ml-2"><Fa_back/> Back</button>
-                    <a href={post.link} className="btn btn-info" target="_blank">Open on Medium <Fa_Link/></a>
-                </div>
             </div>
         );
     }
