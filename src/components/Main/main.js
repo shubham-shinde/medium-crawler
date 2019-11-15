@@ -64,7 +64,7 @@ class Main extends Component {
                     } */}
                     {post.loading 
                         ? post.crawling ? <h2 className="text-success">CRAWLING...</h2> : <h4 className="text-danger">PENDING FOR MORE INFO....</h4> 
-                        : <Link to={"/post/"+post.id} className="btn btn-lg btn-info">Open post <Fa_Link/></Link>}
+                        : post.err ? <h3 className="text-danger">Error in Loading</h3> : <Link to={"/post/"+post.id} className="btn btn-lg btn-info">Open post <Fa_Link/></Link>}
                 </div>
             </div>
         </div>

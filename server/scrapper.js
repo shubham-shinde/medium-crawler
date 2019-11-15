@@ -16,6 +16,64 @@ function doRequest(url) {
     });
 }
 
+const crawlPost = async (post) => {
+    try {
+        const s_tym = Date.now(); //start time of crawling
+        console.log(post.link, ' fetching');
+
+        const pst = await Post.findOne({id : post.id}).exec();
+        
+        if(pst) { //db return
+            const e_tym = Date.now(); //end time of crawling
+            return {...pst._doc, time : e_tym - s_tym};
+        }
+        const postHtml = await doRequest(post.link);
+        const post$ = cheerio.load(postHtml);
+        
+        const tags = [];
+        
+        post$('.r > ul > li > a').each((i, el) => {
+            tags.push({
+                tag : $(el).text(),
+                link : $(el).attr('href')
+            });
+        })
+        
+        const responses = [];
+        const respJson = await doRequest(`https://medium.com/_/api/posts/${post.id}/responsesStream?filter=other`)
+        const resp = JSON.parse(respJson.substring(16));
+        const posts = resp.payload.references.Post;
+        const users = resp.payload.references.User;
+
+        for(let p in posts) {
+            const content = posts[p].previewContent.bodyModel.paragraphs.map(e => e.text).join('\n');
+            const creatorId = posts[p].creatorId;
+            const name = users[creatorId].name;
+            responses.push({
+                content,
+                name,
+                id : p
+            })                
+        }
+
+        post.tags = tags;
+        post.post = post$('article').html();
+        post.loading = false;
+        post.crawling = false;
+        post.responses = responses;
+        const e_tym = Date.now();
+        post.time = e_tym - s_tym;
+        await Posts.create({
+            ...post
+        });
+        console.log(post.id, ' added in db');
+        return post;
+    }
+    catch(err) {
+        console.log('post err', err);
+        return {...post, err: true, loading: false, crawling: false}        
+    }
+}
 
 export const fetchArticleWithQuery = async (socket, query, cb) => {
     const {q, ind } = query;
@@ -39,19 +97,12 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
         $('.postArticle').each((i, el) => {
 
             const title = $(el).find('.graf--title').text();
-
             const id = $(el).attr('data-post-id')
-
             const description = $(el).find('.graf--trailing').text();
-
             const link = $(el).find('.postArticle-content').parent().attr('href');
-
             const author = $(el).find('.postMetaInline').find('[data-action=show-user-card]').text();
-
             const date = $(el).find('time').text();
-
             const readingTime = $(el).find('.readingTime').attr('title');
-
             const imgURL = $(el).find('.graf-image').attr('src');
 
             data.push({
@@ -67,7 +118,7 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
                 crawling: false
             })
         });
-        console.log('searched items ', data.length);
+        console.log('searched items length ', data.length);
         
         //check for ind
         if(ind) {
@@ -80,58 +131,9 @@ export const fetchArticleWithQuery = async (socket, query, cb) => {
         }
 
         for(let i in data) {
-            const s_tym = Date.now(); //start time of crawling
             socket.emit(socTypes.LOADING_THIS, data[i].id);
-            console.log(data[i].link);
-
-            const pst = await Post.findOne({id : data[i].id}).exec();
-            
-            if(pst) { //db return
-                const e_tym = Date.now(); //end time of crawling
-                socket.emit(socTypes.LOADED_THIS, {...pst._doc, time : e_tym - s_tym});
-                continue;
-            }
-            const post = await doRequest(data[i].link);
-            const post$ = cheerio.load(post);
-            
-            const tags = [];
-            
-            post$('.r > ul > li > a').each((i, el) => {
-                tags.push({
-                    tag : $(el).text(),
-                    link : $(el).attr('href')
-                });
-            })
-            
-            const responses = [];
-            const respJson = await doRequest(`https://medium.com/_/api/posts/${data[i].id}/responsesStream?filter=other`)
-            const resp = JSON.parse(respJson.substring(16));
-            const posts = resp.payload.references.Post;
-            const users = resp.payload.references.User;
-
-            for(let p in posts) {
-                const content = posts[p].previewContent.bodyModel.paragraphs.map(e => e.text).join('\n');
-                const creatorId = posts[p].creatorId;
-                const name = users[creatorId].name;
-                responses.push({
-                    content,
-                    name,
-                    id : p
-                })                
-            }
-
-            data[i].tags = tags;
-            data[i].post = post$('article').html();
-            data[i].loading = false;
-            data[i].crawling = false;
-            data[i].responses = responses;
-            const e_tym = Date.now();
-            data[i].time = e_tym - s_tym;
-            socket.emit(socTypes.LOADED_THIS, data[i]);
-            await Posts.create({
-                ...data[i]
-            });
-            console.log(data[i].id, ' added in db');
+            const post = await crawlPost(data[i]);
+            socket.emit(socTypes.LOADED_THIS, post);
         }
     }
     catch(err) {
