@@ -2,7 +2,7 @@
 
 production:
   PORT: 3001
-  SERVER_URL: http://ec2-18-217-116-50.us-east-2.compute.amazonaws.com/
+  SERVER_URL: http://ec2-18-217-116-50.us-east-2.compute.amazonaws.com
   SERVER_PORT: 80
   CLINT_URL: localhost
   TOKEN_NAME: "hack-xxx-comet-assn"

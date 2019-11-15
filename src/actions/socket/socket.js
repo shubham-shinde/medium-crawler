@@ -3,8 +3,9 @@ import io from "socket.io-client";
 import {store} from '../../index';
 import * as actions from '../actions';
 import * as SOC_TYPES from './socket-event-types';
+import { SERVER_PORT, SERVER_URL } from '../../consts/app-config';
 
-const channel = `http://localhost:9001`;
+const channel = `${SERVER_URL}:${SERVER_PORT}`;
 
 export const connect_to_socket = () => {
     const socket = io.connect(channel, { reconnectionDelay: 1000, reconectionDelayMax: 5000 });
