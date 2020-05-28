@@ -3,6 +3,10 @@
 .main {
     width: 50%;
     margin: 50px auto;
+    @media screen and (max-width: 576px) {
+        width: 90%;
+        margin: 10px auto;
+    }
 }
 
 /* Bootstrap 4 text input with search icon */
